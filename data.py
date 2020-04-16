@@ -27,5 +27,30 @@ def index():
 def onProductClick():
    # print(idX)
    return (render_template('/single-product.html'))
+
+@app.route('/index',methods = ['GET','POST'])
+def index_page():
+   return (render_template('/index.html'))
+
+
+@app.route('/login', methods = ['GET','POST'])
+def login():
+   return render_template('/login.html')
+
+
+@app.route('/product_list',methods=['GET','POST'])
+def getProductList():
+   return render_template('/product_list.html')
+
+
+@app.route('/myCart',methods=['GET','POST'])
+def mycart():
+   return render_template('/cart.html')
+
+
+@app.route('/checkout', methods = ['Get','POST'])
+def checkout():
+   return render_template('/checkout.html')
+
 if __name__ == "__main__":
    app.run(debug=True)
