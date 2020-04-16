@@ -23,9 +23,9 @@ def index():
    print(search)
    return(render_template('/product_list.html',data=df))
 
-@app.route('/single_product', methods=['GET','POST'])
-def onProductClick():
-   # print(idX)
+@app.route('/<idX>', methods=['GET','POST'])
+def onProductClick(idX):
+   print(idX)
    return (render_template('/single-product.html'))
 
 @app.route('/index',methods = ['GET','POST'])

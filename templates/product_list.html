@@ -210,7 +210,7 @@
                             <div class="col-lg-6 col-sm-6">
                                 <div class="single_product_item">
                                     <img src="static/img/categori/product6.png" alt="" class="img-fluid">
-                                    <h3> <a href="{{ url_for ('onProductClick') }}">{{ value['TITLE'] }}</a> </h3>
+                                    <h3> <a href="{{ url_for ('onProductClick',idX=value['TITLE']) }}">{{ value['TITLE'] }}</a> </h3>
                                     <p>From ${{ value['COST'] }}</p>
                                 </div>
                             </div>
