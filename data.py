@@ -5,7 +5,7 @@ from flask import Flask, render_template, Response, request, redirect, url_for,M
 
 app = Flask(__name__)
   
-
+# @app.route('/product_list',methods=['GET','POST'])
 @app.route('/',methods=['GET','POST'])
 def index():
    search=""
@@ -40,7 +40,20 @@ def login():
 
 @app.route('/product_list',methods=['GET','POST'])
 def product_list():
-   return render_template('/product_list.html')
+   search=""
+   try:
+      search=request.form['search']
+   except:
+      print("dd")
+   conn = sqlite3.connect('projectables.db')
+   c = conn.cursor()
+   q=str(f'''SELECT * FROM Project WHERE (TITLE LIKE "%{search}%") ORDER BY [S.NO.] DESC LIMIT 10''')
+   c.execute(q)
+   query=c.fetchall()
+   df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING'])
+   print(df)
+   print(search)
+   return(render_template('/product_list.html',data=df))
 
 
 @app.route('/myCart',methods=['GET','POST'])
