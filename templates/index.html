@@ -24,7 +24,7 @@
    </head>
 
    <body>
-       
+
     <!-- Preloader Start -->
     <div id="preloader-active">
         <div class="preloader d-flex align-items-center justify-content-center">
@@ -62,17 +62,17 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <ul class="contact-now">     
+                                    <ul class="contact-now">
                                         <li>+777 2345 7886</li>
                                     </ul>
                                 </div>
                                 <div class="header-info-right">
-                                   <ul>                                          
-                                       <li><a href="login.html">My Account </a></li>
-                                       <li><a href="product_list.html">Wish List  </a></li>
-                                       <li><a href="cart.html">Shopping</a></li>
-                                       <li><a href="cart.html">Cart</a></li>
-                                       <li><a href="checkout.html">Checkout</a></li>
+                                   <ul>
+                                       <li><a href="{{ url_for('login') }}">My Account </a></li>
+                                       <li><a href="{{ url_for('product_list') }}">Wish List  </a></li>
+                                       <li><a href="{{ url_for('cart') }}">Shopping</a></li>
+                                       <li><a href="{{ url_for('cart') }}">Cart</a></li>
+                                       <li><a href="{{ url_for('checkout') }}">Checkout</a></li>
                                    </ul>
                                 </div>
                             </div>
@@ -85,44 +85,44 @@
                             <!-- Logo -->
                             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
                                 <div class="logo">
-                                  <a href="index.html"><img src="static/img/logo/logo.png" alt=""></a>
+                                  <a href="{{ url_for('index_page') }}"><img src="static/img/logo/logo.png" alt=""></a>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
                                 <!-- Main-menu -->
                                 <div class="main-menu f-right d-none d-lg-block">
-                                    <nav>                                                
-                                        <ul id="navigation">                                                                                                                                     
-                                            <li><a href="index.html">Home</a></li>
-                                            <li><a href="Catagori.html">Catagori</a></li>
+                                    <nav>
+                                        <ul id="navigation">
+                                            <li><a href="{{ url_for('index_page') }}">Home</a></li>
+                                            <li><a href="{{ url_for('Catagori') }}">Catagori</a></li>
                                             <li class="hot"><a href="#">Latest</a>
                                                 <ul class="submenu">
-                                                    <li><a href="product_list.html"> Product list</a></li>
+                                                    <li><a href="{{ url_for('product_list') }}"> Product list</a></li>
                                                     <li><a href="single-product.html"> Product Details</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="blog.html">Blog</a>
+                                            <li><a href="{{ url_for('blog') }}">Blog</a>
                                                 <ul class="submenu">
-                                                    <li><a href="blog.html">Blog</a></li>
-                                                    <li><a href="single-blog.html">Blog Details</a></li>
+                                                    <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                                                    <li><a href="{{ url_for('single_blog') }}">Blog Details</a></li>
                                                 </ul>
                                             </li>
                                             <li><a href="#">Pages</a>
                                                 <ul class="submenu">
-                                                    <li><a href="login.html">Login</a></li>
-                                                    <li><a href="cart.html">Card</a></li>
-                                                    <li><a href="elements.html">Element</a></li>
-                                                    <li><a href="about.html">About</a></li>
-                                                    <li><a href="confirmation.html">Confirmation</a></li>
-                                                    <li><a href="cart.html">Shopping Cart</a></li>
-                                                    <li><a href="checkout.html">Product Checkout</a></li>
+                                                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                                                    <li><a href="{{ url_for('cart') }}">Card</a></li>
+                                                    <li><a href="{{ url_for('elements') }}">Element</a></li>
+                                                    <li><a href="{{ url_for('about') }}">About</a></li>
+                                                    <li><a href="{{ url_for('Confirmation') }}">Confirmation</a></li>
+                                                    <li><a href="{{ url_for('cart') }}">Shopping Cart</a></li>
+                                                    <li><a href="{{ url_for('checkout') }}">Product Checkout</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="contact.html">Contact</a></li>
+                                            <li><a href="{{ url_for('contact') }}">Contact</a></li>
                                         </ul>
                                     </nav>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="col-xl-5 col-lg-3 col-md-3 col-sm-3 fix-card">
                                 <ul class="header-right f-right d-none d-lg-block d-flex justify-content-between">
                                     <li class="d-none d-xl-block">
@@ -140,7 +140,7 @@
                                     </li>
                                     <li>
                                         <div class="shopping-card">
-                                            <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+                                            <a href="{{ url_for('cart') }}"><i class="fas fa-shopping-cart"></i></a>
                                         </div>
                                     </li>
                                    <li class="d-none d-lg-block"> <a href="#" class="btn header-btn">Sign in</a></li>
@@ -276,7 +276,7 @@
                     <div class="col-xl-8 col-lg-7 col-md-7">
                         <div class="properties__button f-right">
                             <!--Nav Button  -->
-                            <nav>                                                                                                
+                            <nav>
                                 <div class="nav nav-tabs" id="nav-tab" role="tablist">
                                     <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">All</a>
                                     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">New</a>
@@ -341,7 +341,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="single-product mb-60">
                                     <div class="product-img">
@@ -539,7 +539,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="single-product mb-60">
                                     <div class="product-img">
@@ -619,7 +619,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="single-product mb-60">
                                     <div class="product-img">
@@ -797,7 +797,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="col-xl-4 col-lg-4 col-md-6">
                                 <div class="single-product mb-60">
                                     <div class="product-img">
@@ -985,7 +985,7 @@
                                </div>
                            </div>
                         </div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>
@@ -1035,7 +1035,7 @@
                             <h6>Secure Payment System</h6>
                             <p>aorem ixpsacdolor sit ameasecur adipisicing elitsf edasd.</p>
                         </div>
-                    </div> 
+                    </div>
                     <div class="col-xl-3 col-lg-3 col-md-6">
                         <div class="single-method mb-40">
                             <i class="ti-reload"></i>
@@ -1054,7 +1054,7 @@
                     <div class="row">
                         <div class="gallery-items">
                             <img src="static/img/gallery/gallery1.jpg" alt="">
-                        </div> 
+                        </div>
                         <div class="gallery-items">
                             <img src="static/img/gallery/gallery2.jpg" alt="">
                         </div>
@@ -1085,7 +1085,7 @@
                         <div class="single-footer-caption mb-30">
                              <!-- logo -->
                             <div class="footer-logo">
-                                <a href="index.html"><img src="static/img/logo/logo2_footer.png" alt=""></a>
+                                <a href="{{ url_for('index_page') }}"><img src="static/img/logo/logo2_footer.png" alt=""></a>
                             </div>
                             <div class="footer-tittle">
                                 <div class="footer-pera">
@@ -1161,9 +1161,9 @@
        <!-- Footer End-->
 
    </footer>
-   
+
 	<!-- JS here -->
-	
+
 		<!-- All JS Custom Plugins Link Here here -->
         <script src="./static/js/vendor/modernizr-3.5.0.min.js"></script>
 		<!-- Jquery, Popper, Bootstrap -->
@@ -1186,17 +1186,17 @@
         <script src="./static/js/jquery.scrollUp.min.js"></script>
         <script src="./static/js/jquery.nice-select.min.js"></script>
 		<script src="./static/js/jquery.sticky.js"></script>
-        
+
         <!-- contact js -->
         <script src="./static/js/contact.js"></script>
         <script src="./static/js/jquery.form.js"></script>
         <script src="./static/js/jquery.validate.min.js"></script>
         <script src="./static/js/mail-script.js"></script>
         <script src="./static/js/jquery.ajaxchimp.min.js"></script>
-        
-		<!-- Jquery Plugins, main Jquery -->	
+
+		<!-- Jquery Plugins, main Jquery -->
         <script src="./static/js/plugins.js"></script>
         <script src="./static/js/main.js"></script>
-        
+
     </body>
 </html>
