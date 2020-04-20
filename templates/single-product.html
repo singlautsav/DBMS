@@ -168,6 +168,7 @@
     <!-- slider Area End-->
 
   <!--================Single Product Area =================-->
+  {% for key,value in data.iterrows() %}
   <div class="product_image_area">
     <div class="container">
       <div class="row justify-content-center">
@@ -186,10 +187,9 @@
         </div>
         <div class="col-lg-8">
           <div class="single_product_text text-center">
-            <h3>Foam filling cotton slow <br>
-                rebound pillows</h3>
+            <h3>{{value['TITLE']}}</h3>
             <p>
-                Seamlessly empower fully researched growth strategies and interoperable internal or “organic” sources. Credibly innovate granular internal or “organic” sources whereas high standards in web-readiness. Credibly innovate granular internal or organic sources whereas high standards in web-readiness. Energistically scale future-proof core competencies vis-a-vis impactful experiences. Dramatically synthesize integrated schemas. with optimal networks.
+                {{value['CONTENT']}}
             </p>
             <div class="card_area">
                 <div class="product_count_area">
@@ -199,7 +199,7 @@
                         <input class="product_count_item input-number" type="text" value="1" min="0" max="10">
                         <span class="product_count_item number-increment"> <i class="ti-plus"></i></span>
                     </div>
-                    <p>$5</p>
+                    <p>{{value['COST']}}</p>
                 </div>
               <div class="add_to_cart">
                   <a href="#" class="btn_3">add to cart</a>
@@ -210,6 +210,7 @@
       </div>
     </div>
   </div>
+  {% endfor %}
   <!--================End Single Product Area =================-->
    <!-- subscribe part here -->
    <section class="subscribe_part section_padding">
