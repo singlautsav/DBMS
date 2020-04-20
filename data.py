@@ -1,14 +1,16 @@
 import sqlite3
 import pandas as pd
 from flask import Flask, render_template, Response, request, redirect, url_for,Markup,request
-
+import datetime
 
 app = Flask(__name__)
+
 def query_db(q):
    conn = sqlite3.connect('projectables.db')
    c = conn.cursor()
    c.execute(q)
-   query=c.fetchall() 
+   query=c.fetchall()
+   print(query)
    df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image'])
    return(df)
   
@@ -24,6 +26,42 @@ def index():
    df=query_db(q)
    print(df)
    return(render_template('/product_list.html',data=df))
+
+@app.route('/cart', methods=['GET'])
+def addToCart():
+   # print()
+   check = request.args.get('idX', '')
+   print(check)
+   cartID = int(datetime.datetime.utcnow().timestamp())
+   projectID = check
+   userID = 111
+   numProject = 1
+   q = f'''INSERT INTO cart (CartID,PROJECT_ID,UserID,NumProject) VALUES ({cartID},{projectID},{userID},{numProject})'''
+   # vals = (cartID, projectID,userID,numProject)
+   conn = sqlite3.connect('projectables.db')
+   c = conn.cursor()
+   c.execute(q)
+   conn.commit()
+
+   # qX = f'''SELECT * FROM Project WHERE PROJECT_ID = (SELECT PROJECT_ID,* FROM cart WHERE(UserID={userID})))'''
+   qZ = f'''SELECT * FROM Project p, cart c WHERE p.PROJECT_ID=c.PROJECT_ID and c.UserID={userID}'''
+   # conn = sqlite3.connect('projectables.db')
+   c = conn.cursor()
+   c.execute(q)
+   query=c.fetchall()
+   print(query)
+   df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image','CartID','_','UserID','NUM'])
+   # df = query_db(str(qZ))
+   print(df)
+
+   #  product = Product.query.filter(Product.id == product_id)
+   #  cart_item = CartItem(product=product)
+   #  db.session.add(cart_item)
+   #  db.session.commit()
+
+   # return render_template('index.html')
+   return render_template('/cart.html',data=df)
+
 
 @app.route('/<idX>', methods=['GET','POST'])
 def onProductClick(idX):
@@ -103,6 +141,10 @@ def main():
 @app.route('/single-blog', methods = ['Get','POST'])
 def single_blog():
    return render_template('/single-blog.html')
+
+
+
+
 
 if __name__ == "__main__":
    app.run(debug=True)

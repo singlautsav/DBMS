@@ -179,18 +179,19 @@
             </thead>
             <tbody>
               <tr>
+                {% for key,value in data.iterrows() %}
                 <td>
                   <div class="media">
                     <div class="d-flex">
-                      <img src="static/img/arrivel/arrivel_1.png" alt="" />
+                      <img src="static\img\product\{{value['Image']}}" alt="" />
                     </div>
                     <div class="media-body">
-                      <p>Minimalistic shop for multipurpose use</p>
+                      <p>{{ value['TITLE'] }}</p>
                     </div>
                   </div>
                 </td>
                 <td>
-                  <h5>$360.00</h5>
+                  <h5>${{ value['COST'] }}</h5>
                 </td>
                 <td>
                   <div class="product_count">
@@ -212,6 +213,7 @@
                 <td>
                   <h5>$720.00</h5>
                 </td>
+                {% endfor %}
               </tr>
               <tr>
                 <td>

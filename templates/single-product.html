@@ -202,7 +202,7 @@
                     <p>{{value['COST']}}</p>
                 </div>
               <div class="add_to_cart">
-                  <a href="#" class="btn_3">add to cart</a>
+                  <a href="{{url_for('addToCart', idX = value['PROJECT_ID'])}}" class="btn_3">add to cart</a>
               </div>
             </div>
           </div>
