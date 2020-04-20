@@ -4,7 +4,7 @@ from flask import Flask, render_template, Response, request, redirect, url_for,M
 import datetime
 
 app = Flask(__name__)
-
+UserID = 102
 def query_db(q):
    conn = sqlite3.connect('projectables.db')
    c = conn.cursor()
@@ -13,7 +13,17 @@ def query_db(q):
    print(query)
    df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image'])
    return(df)
+
+def query_dbX(q):
+   conn = sqlite3.connect('projectables.db')
+   c = conn.cursor()
+   c.execute(q)
+   query=c.fetchall()
+   print(query)
+   df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image','CartID','_','UserID','NUM'])
+   return(df)
   
+
 # @app.route('/product_list',methods=['GET','POST'])
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -34,7 +44,7 @@ def addToCart():
    print(check)
    cartID = int(datetime.datetime.utcnow().timestamp())
    projectID = check
-   userID = 111
+   userID = UserID
    numProject = 1
    q = f'''INSERT INTO cart (CartID,PROJECT_ID,UserID,NumProject) VALUES ({cartID},{projectID},{userID},{numProject})'''
    # vals = (cartID, projectID,userID,numProject)
@@ -46,12 +56,12 @@ def addToCart():
    # qX = f'''SELECT * FROM Project WHERE PROJECT_ID = (SELECT PROJECT_ID,* FROM cart WHERE(UserID={userID})))'''
    qZ = f'''SELECT * FROM Project p, cart c WHERE p.PROJECT_ID=c.PROJECT_ID and c.UserID={userID}'''
    # conn = sqlite3.connect('projectables.db')
-   c = conn.cursor()
-   c.execute(q)
-   query=c.fetchall()
-   print(query)
-   df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image','CartID','_','UserID','NUM'])
-   # df = query_db(str(qZ))
+   # c = conn.cursor()
+   # c.execute(q)
+   # query=c.fetchall()
+   # print(query)
+   # )
+   df = query_dbX(str(qZ))
    print(df)
 
    #  product = Product.query.filter(Product.id == product_id)
@@ -100,7 +110,11 @@ def product_list():
 
 @app.route('/myCart',methods=['GET','POST'])
 def cart():
-   return render_template('/cart.html')
+   userID = UserID
+   qZ = f'''SELECT * FROM Project p, cart c WHERE p.PROJECT_ID=c.PROJECT_ID and c.UserID={userID}'''
+   df = query_dbX(str(qZ))
+   print(df)
+   return render_template('/cart.html',data=df)
 
 
 @app.route('/checkout', methods = ['Get','POST'])
