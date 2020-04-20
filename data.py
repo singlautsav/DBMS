@@ -8,8 +8,8 @@ def query_db(q):
    conn = sqlite3.connect('projectables.db')
    c = conn.cursor()
    c.execute(q)
-   query=c.fetchall()
-   df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING'])
+   query=c.fetchall() 
+   df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image'])
    return(df)
   
 # @app.route('/product_list',methods=['GET','POST'])
@@ -21,7 +21,7 @@ def index():
    except:
       print("dd")
    q=str(f'''SELECT * FROM Project WHERE (TITLE LIKE "%{search}%") ORDER BY [S.NO.] DESC LIMIT 10''')
-   df=query_db(q)
+   df=query_db(q) 
    return(render_template('/product_list.html',data=df))
 
 @app.route('/<idX>', methods=['GET','POST'])
@@ -32,6 +32,7 @@ def onProductClick(idX):
    print(df)
    for i in df:
       print(df[i])
+
    return (render_template('/single-product.html',data=df))
 
 @app.route('/index',methods = ['GET','POST'])

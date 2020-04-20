@@ -1,0 +1,15 @@
+[0420/110744.131:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0420/110744.160:ERROR:exception_snapshot_win.cc(98)] thread ID 13796 not found in process
+[0420/110744.160:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: An attempt was made to access an exiting process. (0xc000010a)
+[0420/114732.448:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0420/114732.466:ERROR:exception_snapshot_win.cc(98)] thread ID 2012 not found in process
+[0420/114732.468:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0420/114732.468:ERROR:exception_snapshot_win.cc(98)] thread ID 14108 not found in process
+[0420/115104.962:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0420/115104.963:ERROR:exception_snapshot_win.cc(98)] thread ID 13812 not found in process
+[0420/115104.981:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0420/115104.981:ERROR:exception_snapshot_win.cc(98)] thread ID 14260 not found in process
+[0420/115337.441:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0420/115337.441:ERROR:exception_snapshot_win.cc(98)] thread ID 7972 not found in process
+[0420/115337.453:ERROR:process_reader_win.cc(123)] NtOpenThread: {Access Denied} A process has requested access to an object, but has not been granted those access rights. (0xc0000022)
+[0420/115337.453:ERROR:exception_snapshot_win.cc(98)] thread ID 11652 not found in process
