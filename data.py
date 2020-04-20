@@ -20,8 +20,9 @@ def index():
       search=request.form['search']
    except:
       print("dd")
-   q=str(f'''SELECT * FROM Project WHERE (TITLE LIKE "%{search}%") ORDER BY [S.NO.] DESC LIMIT 10''')
-   df=query_db(q) 
+   q=str(f'''SELECT * FROM Project WHERE (TITLE LIKE "%{search}%") ORDER BY PROJECT_ID LIMIT 10''')
+   df=query_db(q)
+   print(df)
    return(render_template('/product_list.html',data=df))
 
 @app.route('/<idX>', methods=['GET','POST'])
