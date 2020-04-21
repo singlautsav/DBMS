@@ -23,6 +23,21 @@ def query_dbX(q):
    df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image','CartID','_','UserID','NUM'])
    return(df)
   
+def checkLogin(user,passW):
+   conn = sqlite3.connect('projectables.db')
+   c = conn.cursor()
+   q = f'''SELECT * FROM Users u WHERE u.UserID = {user} and u.Password = {passW}'''
+   
+   try:
+      c.execute(q)
+      query=c.fetchall()
+      print(query)
+      print(len(query))
+      return True
+   except:
+      return False
+   # df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image','CartID','_','UserID','NUM'])
+   # return(df)
 
 # @app.route('/product_list',methods=['GET','POST'])
 @app.route('/',methods=['GET','POST'])
@@ -45,7 +60,7 @@ def addToCart():
    cartID = int(datetime.datetime.utcnow().timestamp())
    projectID = check
    userID = UserID
-   numProject = 1
+   numProject = l
    q = f'''INSERT INTO cart (CartID,PROJECT_ID,UserID,NumProject) VALUES ({cartID},{projectID},{userID},{numProject})'''
    # vals = (cartID, projectID,userID,numProject)
    conn = sqlite3.connect('projectables.db')
@@ -93,6 +108,19 @@ def index_page():
 def login():
    return render_template('/login.html')
 
+@app.route('/CheckingLogin/', methods = ['GET','POST'])
+def login_page():
+   if request.method == "POST":
+      user = request.form['Username']
+      passW = request.form['Password']
+      print(user,passW)
+      global UserID
+      UserID = user
+      if checkLogin(UserID,passW):
+         return redirect(url_for('index'),code = 302)
+      else:
+         return redirect(url_for('login',code = 302))
+   return render_template('/login.html')
 
 @app.route('/product_list',methods=['GET','POST'])
 def product_list():
@@ -161,4 +189,5 @@ def single_blog():
 
 
 if __name__ == "__main__":
+   
    app.run(debug=True)
