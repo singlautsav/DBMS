@@ -205,6 +205,25 @@
                   <a href="{{url_for('addToCart', idX = value['PROJECT_ID'])}}" class="btn_3">add to cart</a>
               </div>
             </div>
+
+            <br>
+            <br>
+            <h1>Highest Bid: ${{value['maxBid']}} </h1>
+            <br>
+            <br><br>
+            <br>
+            <h2>Place your bid below</h2>
+            <form class="row contact_form" action="/bidDone/" method="post">
+                <div class="col-md-12 form-group p_star">
+                    <input type="text" class="form-control" id="bidValue" name="bidValue" value=""
+                        placeholder="bidValue">
+                </div>
+                <div class="col-md-12 form-group">
+                    <button type="submit" value="submit" class="btn_3">
+                        place bid
+                    </button>
+                </div>
+            </form>
           </div>
         </div>
       </div>

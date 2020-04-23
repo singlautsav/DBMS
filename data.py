@@ -5,6 +5,7 @@ import datetime
 
 app = Flask(__name__)
 UserID = 102
+currentProductId = 0
 def query_db(q):
    conn = sqlite3.connect('projectables.db')
    c = conn.cursor()
@@ -36,8 +37,26 @@ def checkLogin(user,passW):
       return True
    except:
       return False
-   # df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image','CartID','_','UserID','NUM'])
-   # return(df)
+
+def getMaxBid():
+   q2 = f'''SELECT MAX(BidValue) FROM Bidding WHERE ProjectID = {currentProductId};'''
+   conn = sqlite3.connect('projectables.db')
+   c = conn.cursor()
+   try:
+      c.execute(q2)
+      query = c.fetchall()
+      print(query)
+      return(query[0][0])
+   except:
+      return 0
+
+def insertBid(q):
+   conn = sqlite3.connect('projectables.db')
+   c = conn.cursor()
+   print(q)
+   c.execute(q)
+   conn.commit()
+
 
 # @app.route('/product_list',methods=['GET','POST'])
 @app.route('/',methods=['GET','POST'])
@@ -67,32 +86,26 @@ def addToCart():
    c = conn.cursor()
    c.execute(q)
    conn.commit()
-
-   # qX = f'''SELECT * FROM Project WHERE PROJECT_ID = (SELECT PROJECT_ID,* FROM cart WHERE(UserID={userID})))'''
    qZ = f'''SELECT * FROM Project p, cart c WHERE p.PROJECT_ID=c.PROJECT_ID and c.UserID={userID}'''
-   # conn = sqlite3.connect('projectables.db')
-   # c = conn.cursor()
-   # c.execute(q)
-   # query=c.fetchall()
-   # print(query)
-   # )
    df = query_dbX(str(qZ))
    print(df)
-
-   #  product = Product.query.filter(Product.id == product_id)
-   #  cart_item = CartItem(product=product)
-   #  db.session.add(cart_item)
-   #  db.session.commit()
-
-   # return render_template('index.html')
    return render_template('/cart.html',data=df)
 
 
 @app.route('/<idX>', methods=['GET','POST'])
 def onProductClick(idX):
    print(idX)
-   q=str(f'''SELECT * FROM Project WHERE (TITLE = "{idX}")''')
+   q=str(f'''SELECT * FROM Project WHERE (PROJECT_ID = "{idX}")''')
+   global currentProductId 
+   currentProductId= idX
    df=query_db(q)
+
+   valMaxBid = getMaxBid()
+   if valMaxBid ==0:
+      valMaxBid = "No Bid Yet"
+
+   df['maxBid'] = valMaxBid
+
    print(df)
    for i in df:
       print(df[i])
@@ -121,6 +134,7 @@ def login_page():
       else:
          return redirect(url_for('login',code = 302))
    return render_template('/login.html')
+
 
 @app.route('/product_list',methods=['GET','POST'])
 def product_list():
@@ -184,9 +198,17 @@ def main():
 def single_blog():
    return render_template('/single-blog.html')
 
-
-
-
+@app.route('/bidDone/', methods = ['GET','POST'])
+def checkBid():
+   if request.method =="POST":
+      bidValue = request.form['bidValue']
+      print(bidValue)
+      q1 = f'''INSERT INTO Bidding (BidId,BidValue,UserID,ProjectID) VALUES ({int(datetime.datetime.utcnow().timestamp())},{bidValue},{UserID},{currentProductId});'''
+      print(q1)
+      insertBid(q1)
+      return redirect(url_for('onProductClick',idX=currentProductId, code=302))
+   
+   # return redirect(url_for('',code =302)
 
 if __name__ == "__main__":
    
