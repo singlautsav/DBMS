@@ -203,7 +203,8 @@ def checkBid():
    if request.method =="POST":
       bidValue = request.form['bidValue']
       print(bidValue)
-      q1 = f'''INSERT INTO Bidding (BidId,BidValue,UserID,ProjectID) VALUES ({int(datetime.datetime.utcnow().timestamp())},{bidValue},{UserID},{currentProductId});'''
+      bidId = int(datetime.datetime.utcnow().timestamp())
+      q1 = f'''INSERT INTO Bidding (BidId,BidValue,UserID,ProjectID) VALUES ({bidId},{bidValue},{UserID},{currentProductId});'''
       print(q1)
       insertBid(q1)
       return redirect(url_for('onProductClick',idX=currentProductId, code=302))
