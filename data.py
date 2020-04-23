@@ -167,6 +167,27 @@ def login_page():
          return redirect(url_for('login',code = 302))
    return render_template('/login.html')
 
+@app.route('/Signup',methods = ['GET'])
+def signup_page():
+   return render_template('/SignUp.html')
+
+@app.route('/SignUp/', methods = ['GET','POST'])
+def add_user():
+   if request.method =="POST":
+      user = str(request.form['Username'])
+      passW = str(request.form['Password'])
+      name = str(request.form['name'])
+      phoneNum = request.form['PhoneNumber']
+      email = str(request.form['email'])
+      print(email)
+      purpose = "True"
+      q = '''INSERT INTO Users (UserID,Name,PhoneNo,Email,Purpose,Password) VALUES (?,?,?,?,?,?)'''
+      vals = (user,name,phoneNum,email,purpose, passW)
+      conn = sqlite3.connect('projectables.db')
+      c = conn.cursor()
+      c.execute(q,vals)
+      conn.commit()
+      return redirect(url_for('login',code=302))
 
 @app.route('/product_list',methods=['GET','POST'])
 def product_list():
