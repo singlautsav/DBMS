@@ -7,11 +7,13 @@ app = Flask(__name__)
 UserID = 102
 currentProductId = 0
 def query_db(q):
+
+   
    conn = sqlite3.connect('projectables.db')
    c = conn.cursor()
    c.execute(q)
    query=c.fetchall()
-   print(query)
+   # print(query)
    df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image'])
    return(df)
 
@@ -20,7 +22,7 @@ def query_dbX(q):
    c = conn.cursor()
    c.execute(q)
    query=c.fetchall()
-   print(query)
+   # print(query)
    df = pd.DataFrame(query,columns=['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image','CartID','_','UserID','NUM'])
    return(df)
   
@@ -32,20 +34,20 @@ def checkLogin(user,passW):
    try:
       c.execute(q)
       query=c.fetchall()
-      print(query)
-      print(len(query))
+      # print(query)
+      # print(len(query))
       return True
    except:
       return False
 
-def getMaxBid():
-   q2 = f'''SELECT MAX(BidValue) FROM Bidding WHERE ProjectID = {currentProductId};'''
+def getMaxBid(val = currentProductId):
+   q2 = f'''SELECT MAX(BidValue) FROM Bidding WHERE ProjectID = {val};'''
    conn = sqlite3.connect('projectables.db')
    c = conn.cursor()
    try:
       c.execute(q2)
       query = c.fetchall()
-      print(query)
+      # print(query)
       return(query[0][0])
    except:
       return 0
@@ -53,11 +55,40 @@ def getMaxBid():
 def insertBid(q):
    conn = sqlite3.connect('projectables.db')
    c = conn.cursor()
-   print(q)
+   # print(q)
    c.execute(q)
    conn.commit()
 
 
+def getallBids():
+   q = f'''SELECT BidId,MAX(BidValue),UserID,ProjectID FROM Bidding GROUP BY UserID,ProjectID HAVING userid={UserID}'''
+   conn = sqlite3.connect('projectables.db')
+   c = conn.cursor()
+   c.execute(q)
+   query=c.fetchall()
+
+   dfFinal = pd.DataFrame(columns = ['PROJECT_ID','[S.NO.]','TITLE','CONTENT','OWNER_ID','COST','AUTHOR','RATING','Image','maxBid'])
+   try:
+      abX = []
+      # dfFinal = query_db(query[0][3])
+      # dfFinal['maxBid'] = getMaxBid(query[0][3])
+      # abX.append(dfFinal)
+      for i in query:
+         q=str(f'''SELECT * FROM Project WHERE (PROJECT_ID = "{i[3]}")''')
+         ab = query_db(q)
+         ab['maxBid'] = getMaxBid(i[3])
+         ab['myBid'] = i[1]
+         print(ab)
+         # dfFinal.append(ab, ignore_index = True)
+         abX.append(ab)
+      # print(dfFinal)
+      # print(ab)
+      dfFinal = pd.concat(abX)
+      return dfFinal
+   except:
+      return dfFinal
+
+   
 # @app.route('/product_list',methods=['GET','POST'])
 @app.route('/',methods=['GET','POST'])
 def index():
@@ -79,7 +110,7 @@ def addToCart():
    cartID = int(datetime.datetime.utcnow().timestamp())
    projectID = check
    userID = UserID
-   numProject = l
+   numProject = 1
    q = f'''INSERT INTO cart (CartID,PROJECT_ID,UserID,NumProject) VALUES ({cartID},{projectID},{userID},{numProject})'''
    # vals = (cartID, projectID,userID,numProject)
    conn = sqlite3.connect('projectables.db')
@@ -95,11 +126,10 @@ def addToCart():
 @app.route('/<idX>', methods=['GET','POST'])
 def onProductClick(idX):
    print(idX)
-   q=str(f'''SELECT * FROM Project WHERE (PROJECT_ID = "{idX}")''')
    global currentProductId 
    currentProductId= idX
+   q=str(f'''SELECT * FROM Project WHERE (PROJECT_ID = "{idX}")''')
    df=query_db(q)
-
    valMaxBid = getMaxBid()
    if valMaxBid ==0:
       valMaxBid = "No Bid Yet"
@@ -130,8 +160,10 @@ def login_page():
       global UserID
       UserID = user
       if checkLogin(UserID,passW):
-         return redirect(url_for('index'),code = 302)
+         print("Calling Index")
+         return redirect(url_for('cart'),code = 302)
       else:
+         print("Calling Login")
          return redirect(url_for('login',code = 302))
    return render_template('/login.html')
 
@@ -161,7 +193,8 @@ def cart():
 
 @app.route('/checkout', methods = ['Get','POST'])
 def checkout():
-   return render_template('/checkout.html')
+   df = getallBids()
+   return render_template('/checkout.html',data = df)
 
 @app.route('/about', methods = ['Get','POST'])
 def about():
@@ -204,7 +237,7 @@ def checkBid():
       bidValue = request.form['bidValue']
       print(bidValue)
       bidId = int(datetime.datetime.utcnow().timestamp())
-      q1 = f'''INSERT INTO Bidding (BidId,BidValue,UserID,ProjectID) VALUES ({bidId},{bidValue},{UserID},{currentProductId});'''
+      q1 = f'''INSERT INTO Bidding (BidId,BidValue,UserID,ProjectID) VALUES ({bidId},{bidValue},{UserID},{currentProductId})'''
       conn = sqlite3.connect('projectables.db')
       c = conn.cursor()
       c.execute(q1)
