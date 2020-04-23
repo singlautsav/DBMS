@@ -268,6 +268,9 @@ def checkBid():
    
    # return redirect(url_for('',code =302)
 
+def getApp():
+   return app
+
 if __name__ == "__main__":
    
    app.run(debug=True)
