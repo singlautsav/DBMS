@@ -36,7 +36,8 @@ for i in range(9,61):
     img = driver.find_element_by_xpath('//*[@id="category-projects-page"]/div/div[2]/div[2]/div[{}]/a/img'.format(i)).get_attribute('data-src')
     print(img)
     print(i)
-    # //*[@id="category-projects-page"]/div/div[2]/div[2]/div[8]/a/img
+    # //*[@id="category-projects-page"]/d>>>>>>> b2aab849f2f517fcbaedd6f20222f43e9d8e826a
+# iv/div[2]/div[2]/div[8]/a/img
     # 
     # /html/body/main/div/div/div[2]/div[2]/div[12]/a/img
     # /html/body/main/div/div/div[2]/div[2]/div[12]/a/img
