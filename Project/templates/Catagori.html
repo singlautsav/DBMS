@@ -80,6 +80,12 @@
                                         <ul id="navigation">
                                             <li><a href="{{ url_for('index_page') }}">Home</a></li>
                                             <li><a href="{{ url_for('Catagori') }}">Category</a></li>
+                                            <li class="hot"><a href="#">Latest</a>
+                                                <ul class="submenu">
+                                                    <li><a href="{{ url_for('index') }}"> Product list</a></li>
+                                                    <li><a href="single-product.html"> Product Details</a></li>
+                                                </ul>
+                                            </li>
                                             <li><a href="{{ url_for('index') }}"> Product list</a></li>
                                             <li><a href="#">Pages</a>
                                                 <ul class="submenu">
@@ -155,6 +161,37 @@
         <section class="latest-product-area latest-padding">
             <div class="container">
                 <div class="row product-btn d-flex justify-content-between">
+                    <div class="properties__button">
+                        <!--Nav Button  -->
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">All</a>
+                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">New</a>
+                                <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Featured</a>
+                                <a class="nav-item nav-link" id="nav-last-tab" data-toggle="tab" href="#nav-last" role="tab" aria-controls="nav-contact" aria-selected="false">Offer</a>
+                            </div>
+                        </nav>
+                        <!--End Nav Button  -->
+                    </div>
+                    <div class="select-this d-flex">
+                        <div class="featured">
+                            <span>Sort by: </span>
+                        </div>
+                        <div class="select-itms">
+                            <form class="form-inline" method="post" action="/Catagori">
+                                <select class="form-control" name="sel" id="sel" placeholder="sel">
+                                    <option value='1'>Newest</option>
+                                    <option value='2'>Oldest</option>
+                                    <option value='3'>High Rated</option>
+                                    <option value='4'>Low Rated</option>
+                                    <option value='5'>Low Price</option>
+                                    <option value='6'>High Price</option>
+                                    <input type="submit" value="Submit">
+                                </select>
+
+                            </form>
+                            </div>
+                    </div>
                 </div>
                 <!-- Nav Card -->
                 <div class="tab-content" id="nav-tabContent">
