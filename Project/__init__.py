@@ -49,15 +49,17 @@ def checkLogin(user,passW):
    c.execute(q)
    print(True)
    query=c.fetchall()
-   try:
-      print(query[0][0])
-      if query[0][0]==passW:
-         return True
-      else:
-         return False
-   except:
+   # try:
+   print(query[0][0])
+   if str(query[0][0])==str(passW):
+      print(True)
+      return True
+   else:
+      print(False)
       return False
-   # print(query)
+   # except:
+   #    return False
+   # # print(query)
    # print(len(query))
    # return True
    # except:
@@ -265,9 +267,10 @@ def login_page():
       user = hash_user(request.form['Username'])
       passW =hash_user(request.form['Password'])
       print(user,passW)
-      global UserID
-      UserID = user
-      if checkLogin(UserID,passW):
+      
+      if checkLogin(user,passW):
+         global UserID
+         UserID = user
          print("Calling Index")
          return redirect(url_for('cart'),code = 302)
       else:
@@ -423,7 +426,6 @@ def Messages(idX):
    # dfSent = getAllUniqueMessengers(UserID,"sent")
    # content = {"msgContent": df}
    return render_template('/Messages.html', data = df)
-  
 
 def getApp():
    return app
