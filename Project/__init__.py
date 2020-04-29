@@ -2,6 +2,8 @@ import sqlite3
 import pandas as pd
 from flask import Flask, render_template, Response, request, redirect, url_for,Markup,request
 import datetime
+import os
+from git import Repo
 
 app = Flask(__name__)
 UserID = 102
@@ -9,6 +11,18 @@ currentProductId = 0
 currentProductUserID = "a"
 currentMessageReciever = "a"
 
+PATH_OF_GIT_REPO = os.getcwd()
+COMMIT_MESSAGE = "From Script"
+def git_push():
+   repo = Repo(PATH_OF_GIT_REPO)
+   repo.git.add(update=True)
+   repo.index.commit(COMMIT_MESSAGE)
+   origin = repo.remote(name='origin')
+   origin.push()
+   #  try:
+        
+   #  except:
+   #      print('Some error occured while pushing the code')  
 
 def hash_user(user):
    if str(user).isnumeric():
@@ -412,9 +426,6 @@ def checkMsg():
       return redirect(url_for('onProductClick',idX=currentProductId, code=302))
 
 
-
-
-
 @app.route('/dashboard', methods = ['Get','POST'])
 def Dashboard():
    df = getallBids()
@@ -431,10 +442,6 @@ def Messages(idX):
    df = getAllMessages(UserID,idX)
    global currentMessageReciever
    currentMessageReciever = idX
-   # print(df)
-   # dfRecieved =getAllUniqueMessengers(UserID,"recieved")
-   # dfSent = getAllUniqueMessengers(UserID,"sent")
-   # content = {"msgContent": df}
    return render_template('/Messages.html', data = df)
 
 @app.route('/messageSent/', methods=['GET','POST'])
@@ -458,5 +465,5 @@ def getApp():
    return app
 
 if __name__ == "__main__":
-   
-   app.run(debug=True)
+   git_push()
+   # app.run(debug=True)
