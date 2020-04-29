@@ -452,7 +452,7 @@ def messageSent():
       c.execute(q1,vas)
       conn.commit()
       # insertBid(q1)
-      return redirect(url_for('Dashboard', code=302)
+      return redirect(url_for('Dashboard', code=302))
 
 def getApp():
    return app
