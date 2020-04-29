@@ -19,7 +19,7 @@ def git_push():
    repo.index.commit(COMMIT_MESSAGE)
    origin = repo.remote(name='origin')
    origin.push()
-   print(done)
+   print("done")
    #  try:
         
    #  except:
