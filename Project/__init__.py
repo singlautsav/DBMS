@@ -7,15 +7,19 @@ app = Flask(__name__)
 UserID = 102
 currentProductId = 0
 currentProductUserID = "a"
+currentMessageReciever = "a"
+
+
 def hash_user(user):
-      if str(user).isnumeric():
-         return user
-      a=0
-      c=0
-      for i in user:
-         a+=(ord(i)-97)*(26**c)
-         c+=1
-      return(a)
+   if str(user).isnumeric():
+      return user
+   a=0
+   c=0
+   for i in user:
+      a+=(ord(i)-97)*(26**c)
+      c+=1
+   return(a)
+
 def query_db(q):
    print(q)
    conn = sqlite3.connect('projectables.db')
@@ -47,18 +51,19 @@ def checkLogin(user,passW):
    # try:
    print(q)
    c.execute(q)
-   print(True)
+   # print(True)
    query=c.fetchall()
-   # try:
-   print(query[0][0])
-   if str(query[0][0])==str(passW):
-      print(True)
-      return True
-   else:
-      print(False)
+   print(query)
+   try:
+      print(query[0][0])
+      if str(query[0][0])==str(passW):
+         print(True)
+         return True
+      else:
+         print(False)
+         return False
+   except:
       return False
-   # except:
-   #    return False
    # # print(query)
    # print(len(query))
    # return True
@@ -406,7 +411,10 @@ def checkMsg():
       # insertBid(q1)
       return redirect(url_for('onProductClick',idX=currentProductId, code=302))
 
-    
+
+
+
+
 @app.route('/dashboard', methods = ['Get','POST'])
 def Dashboard():
    df = getallBids()
@@ -421,11 +429,30 @@ def Dashboard():
 
 def Messages(idX):
    df = getAllMessages(UserID,idX)
+   global currentMessageReciever
+   currentMessageReciever = idX
    # print(df)
    # dfRecieved =getAllUniqueMessengers(UserID,"recieved")
    # dfSent = getAllUniqueMessengers(UserID,"sent")
    # content = {"msgContent": df}
    return render_template('/Messages.html', data = df)
+
+@app.route('/messageSent/', methods=['GET','POST'])
+def messageSent():
+   if request.method =="POST":
+      message = request.form['message']
+      print(message)
+      # global currentProductUserID
+      SenderID = str(currentMessageReciever)
+      msgID = int(datetime.datetime.utcnow().timestamp())
+      q1 = f'''INSERT INTO messages (Sender,Reciever,MessageID,MessageContent) VALUES (?,?,?,?)'''
+      vas = (UserID,SenderID,msgID,message)
+      conn = sqlite3.connect('projectables.db')
+      c = conn.cursor()
+      c.execute(q1,vas)
+      conn.commit()
+      # insertBid(q1)
+      return redirect(url_for('Dashboard', code=302)
 
 def getApp():
    return app

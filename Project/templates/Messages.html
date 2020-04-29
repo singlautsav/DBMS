@@ -171,47 +171,58 @@
 <!-- MESSAGE TABLE =========================================================================== -->
           <table class="table">
             <thead>
-                
               <tr>
                 <th scope="col">Messages</th>
-                <th scope="col">Reciever</th>
+                <th scope="col">Sender</th>
                 <th scope="col">Time</th>
               </tr>
             </thead>
             <tbody>
-                {% for key,value in data.iterrows() %}
+              {% for key,value in data.iterrows() %}
               <tr>
                 <td>
                   <div class="media">
                     <div class="media-body">
-                        {{ value['MessageContent']}}
+                        {{value['MessageContent']}}
                     </div>
                   </div>
                 </td>
                 <td>
-                <div class="media">
-                    <div class="media-body">
-                        {{ value['Sender']}}
-                    </div>
-                </div>
+                    {{value['Sender']}}
                 </td>
                 <td>
-                    {{ value['MessageID']}}
+                    {{value['MessageID']}}
                 </td>
               </tr>
               {% endfor %}
+            </tbody>
           </table>
 
             <br><br>
 
-  
+          
           <!-- <div class="checkout_btn_inner float-right">
             <a class="btn_1" href="#">Continue Shopping</a>
             <a class="btn_1 checkout_btn_1" href="#">Proceed to checkout</a>
           </div> -->
         </div>
       </div>
+
+      <h2>Send a message to the owner</h2>
+          <form class="row contact_form" action="/messageSent/" method="post">
+              <div class="col-md-12 form-group p_star">
+                  <input type="text" class="form-control" id="message" name="message" value=""
+                      placeholder="message">
+              </div>
+              <div class="col-md-12 form-group">
+                  <button type="submit" value="submit" class="btn_3">
+                      Send message
+                  </button>
+              </div>
+          </form>
   </section>
+
+
   <!--================End Cart Area =================-->
 
 <footer>
